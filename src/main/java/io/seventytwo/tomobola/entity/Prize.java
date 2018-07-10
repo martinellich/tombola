@@ -5,6 +5,8 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import java.sql.Timestamp;
 
@@ -18,14 +20,19 @@ public class Prize {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Integer id;
+
+    @NotNull
     private Integer number;
+
+    @NotEmpty
     private String name;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Tombola tombola;
 
     @CreatedDate
     private Timestamp createdDate;
+
     @LastModifiedDate
     private Timestamp lastModifiedDate;
 

@@ -11,17 +11,17 @@
 <div class="container">
     <div class="row">
         <div class="col-lg">
-            <h1>Tombola [[${tombola.name}]]</h1>
+            <h1>[[${tombola.name}]]</h1>
 
             <form th:action="@{/tombolas}" th:object="${tombola}" method="post">
                 <input type="hidden" th:field="*{id}">
                 <div class="form-group">
                     <label for="name" th:text="#{messages.name}">Name</label>
-                    <input type="text" class="form-control" id="name" th:placeholder="#{messages.name}" th:field="*{name}" autofocus>
+                    <input type="text" class="form-control" id="name" th:placeholder="#{messages.name}" th:field="*{name}" required autofocus>
                     <small id="emailHelp" class="form-text text-muted" th:text="#{messages.enter_unique_name}"></small>
                 </div>
                 <button type="submit" class="btn btn-primary" th:text="#{messages.save}">Save</button>
-                <a th:href="@{/}" th:text="#{messages.back}"></a>
+                <a class="btn" th:href="@{/}" th:text="#{messages.back}"></a>
             </form>
         </div>
     </div>

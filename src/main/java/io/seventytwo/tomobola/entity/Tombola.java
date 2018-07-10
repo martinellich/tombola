@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.NotEmpty;
 
 import java.sql.Timestamp;
 
@@ -20,10 +21,13 @@ public class Tombola {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Integer id;
+
+    @NotEmpty
     private String name;
 
     @CreatedDate
     private Timestamp createdDate;
+
     @LastModifiedDate
     private Timestamp lastModifiedDate;
 
