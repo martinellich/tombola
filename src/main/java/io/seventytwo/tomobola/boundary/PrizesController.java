@@ -3,6 +3,7 @@ package io.seventytwo.tomobola.boundary;
 import io.seventytwo.tomobola.entity.Prize;
 import io.seventytwo.tomobola.entity.PrizeRepository;
 import io.seventytwo.tomobola.entity.Tombola;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.NestedExceptionUtils;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
@@ -10,6 +11,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
 
 @RequestMapping("/prizes")
 @Controller
@@ -30,6 +33,30 @@ public class PrizesController {
             Tombola tombola = (Tombola) tombolaFromSession;
 
             model.addAttribute("prizes", prizeRepository.findAllByTombolaOrderByCreatedDateDesc(tombola));
+            model.addAttribute("prizeViewModel", new PrizeViewModel());
+
+            return "prizes";
+        }
+    }
+
+    @GetMapping("/search")
+    public String findAll(@RequestParam String searchTerm, Model model, HttpSession session) {
+        Object tombolaFromSession = session.getAttribute("tombola");
+        if (tombolaFromSession == null) {
+            return "redirect:/tombolas";
+        } else {
+            Tombola tombola = (Tombola) tombolaFromSession;
+            List<Prize> prizes;
+            if (StringUtils.isBlank(searchTerm)) {
+                prizes = prizeRepository.findAllByTombolaOrderByCreatedDateDesc(tombola);
+            } else {
+                if (StringUtils.isNumeric(searchTerm)) {
+                    prizes = prizeRepository.findAllByTombolaAndNumberOrderByCreatedDateDesc(tombola, Integer.parseInt(searchTerm));
+                } else {
+                    prizes = prizeRepository.findAllByTombolaAndNameLikeOrderByCreatedDateDesc(tombola, searchTerm);
+                }
+            }
+            model.addAttribute("prizes", prizes);
             model.addAttribute("prizeViewModel", new PrizeViewModel());
 
             return "prizes";
