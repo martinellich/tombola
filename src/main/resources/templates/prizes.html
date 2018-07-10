@@ -1,0 +1,58 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="common/head :: head"></head>
+
+<body>
+
+<div th:replace="common/navigation :: navigation ('tombola')"></div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg">
+            <h1>[[#{messages.prizes}]] [[${session.tombola.name}]]</h1>
+
+            <form th:action="@{/prizes}" th:object="${prizeViewModel}" method="post">
+                <div class="form-group">
+                    <label for="number" th:text="#{messages.number}">Name</label>
+                    <input type="text" class="form-control" id="number" th:placeholder="#{messages.number}"
+                           th:field="*{number}" autofocus>
+                </div>
+                <div class="form-group">
+                    <label for="name" th:text="#{messages.name}">Name</label>
+                    <input type="text" class="form-control" id="name" th:placeholder="#{messages.name}"
+                           th:field="*{name}">
+                </div>
+                <button type="submit" class="btn btn-primary" th:text="#{messages.save}">Save</button>
+                <a th:href="@{/}" th:text="#{messages.back}"></a>
+            </form>
+
+            <h2 th:text="#{messages.prizes}" class="mt-5"></h2>
+
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>Number</th>
+                    <th>Name</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="prize : ${prizes}">
+                    <td th:text="${prize.number}"></td>
+                    <td th:text="${prize.name}"></td>
+                    <td class="text-right">
+                        <a th:href="@{/prizes/{id}(id=${prize.id})}" th:text="#{messages.edit}">Edit</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div th:replace="common/footer :: footer"></div>
+
+</body>
+
+</html>

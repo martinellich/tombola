@@ -1,10 +1,17 @@
 package io.seventytwo.tomobola.entity;
 
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import javax.persistence.*;
+
+import java.sql.Timestamp;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Table(uniqueConstraints = {@UniqueConstraint(name = "UX_PRIZE", columnNames = {"number", "tombola_id"})})
 public class Prize {
 
@@ -16,6 +23,11 @@ public class Prize {
 
     @ManyToOne
     private Tombola tombola;
+
+    @CreatedDate
+    private Timestamp createdDate;
+    @LastModifiedDate
+    private Timestamp lastModifiedDate;
 
     public Integer getId() {
         return id;
@@ -47,5 +59,21 @@ public class Prize {
 
     public void setTombola(Tombola tombola) {
         this.tombola = tombola;
+    }
+
+    public Timestamp getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Timestamp createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public Timestamp getLastModifiedDate() {
+        return lastModifiedDate;
+    }
+
+    public void setLastModifiedDate(Timestamp lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
     }
 }

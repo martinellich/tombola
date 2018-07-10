@@ -6,12 +6,32 @@
 
 <body>
 
-<div th:replace="common/navigation :: navigation ('index', 'tombola')"></div>
+<div th:replace="common/navigation :: navigation ('index')"></div>
 
 <div class="container">
     <div class="row">
         <div class="col-lg">
-            <h1 th:text="${hello}">Hallo</h1>
+            <h1>Tombolas</h1>
+
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th class="text-right">
+                        <a th:href="@{/tombolas/new}" th:text="#{messages.add_tombola}">Add Tombola</a>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="tombola : ${tombolas}">
+                    <td th:text="${tombola.name}"></td>
+                    <td class="text-right">
+                        <a th:href="@{/tombolas/{id}/select(id=${tombola.id})}" th:text="#{messages.select}">Select</a>
+                        <a th:href="@{/tombolas/{id}(id=${tombola.id})}" th:text="#{messages.edit}">Edit</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

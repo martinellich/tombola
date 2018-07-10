@@ -4,7 +4,7 @@
 
 <body>
 
-<header th:fragment="navigation (page, tombola)">
+<header th:fragment="navigation (page)">
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#">Tombola</a>
@@ -16,10 +16,10 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active" th:class="${page == 'index'} ? 'nav-item active' : 'nav-item'">
-                    <a class="nav-link" href="#">Home</a>
+                    <a class="nav-link" th:href="@{/}">Home</a>
                 </li>
-                <li class="nav-item active" th:class="${page == 'tombola'} ? 'nav-item active' : 'nav-item'">
-                    <a class="nav-link" href="#">Tombola</a>
+                <li th:if="${session.tombola != null}" class="nav-item active" th:class="${page == 'tombola'} ? 'nav-item active' : 'nav-item'">
+                    <a class="nav-link" th:href="@{/prizes}" th:text="${session.tombola.name}">Tombola</a>
                 </li>
             </ul>
             <form class="form-inline my-2 my-lg-0">
@@ -28,6 +28,12 @@
             </form>
         </div>
     </nav>
+
+    <div id="message" th:if="${message != null}">
+        <div th:class="${message.isError() ? 'alert alert-danger': 'alert alert-success'}">
+            <span th:text="${message.getMessage()}"></span>
+        </div>
+    </div>
 
 </header>
 
