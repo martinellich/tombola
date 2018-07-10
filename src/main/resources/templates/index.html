@@ -1,0 +1,23 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="common/head :: head"></head>
+
+<body>
+
+<div th:replace="common/navigation :: navigation ('index', 'tombola')"></div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg">
+            <h1 th:text="${hello}">Hallo</h1>
+        </div>
+    </div>
+</div>
+
+<div th:replace="common/footer :: footer"></div>
+
+</body>
+
+</html>
