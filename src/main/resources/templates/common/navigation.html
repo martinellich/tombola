@@ -29,6 +29,7 @@
         </div>
     </nav>
 
+    <!--/*@thymesVar id="message" type="io.seventytwo.tomobola.boundary.Message"*/-->
     <div id="message" th:if="${message != null}">
         <div th:class="${message.isError() ? 'alert alert-danger': 'alert alert-success'}">
             <span th:text="${message.getMessage()}"></span>
