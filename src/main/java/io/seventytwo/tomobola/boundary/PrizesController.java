@@ -4,24 +4,26 @@ import io.seventytwo.tomobola.entity.Prize;
 import io.seventytwo.tomobola.entity.PrizeRepository;
 import io.seventytwo.tomobola.entity.Tombola;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.core.NestedExceptionUtils;
-import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
 
 @RequestMapping("/prizes")
 @Controller
 public class PrizesController {
 
     private final PrizeRepository prizeRepository;
+    private final MessageSource messageSource;
 
-    public PrizesController(PrizeRepository prizeRepository) {
+    public PrizesController(PrizeRepository prizeRepository, MessageSource messageSource) {
         this.prizeRepository = prizeRepository;
+        this.messageSource = messageSource;
     }
 
     @GetMapping
@@ -33,6 +35,7 @@ public class PrizesController {
             Tombola tombola = (Tombola) tombolaFromSession;
 
             model.addAttribute("prizes", prizeRepository.findAllByTombolaOrderByCreatedDateDesc(tombola));
+            model.addAttribute("totalNumberOfPrizes", prizeRepository.countByTombola(tombola));
             model.addAttribute("prizeViewModel", new PrizeViewModel());
 
             return "prizes";
@@ -57,6 +60,7 @@ public class PrizesController {
                 }
             }
             model.addAttribute("prizes", prizes);
+            model.addAttribute("totalNumberOfPrizes", prizeRepository.countByTombola(tombola));
             model.addAttribute("prizeViewModel", new PrizeViewModel());
 
             return "prizes";
@@ -92,18 +96,21 @@ public class PrizesController {
             prize.setNumber(prizeViewModel.getNumber());
             prize.setName(prizeViewModel.getName());
 
-            try {
+            Optional<Prize> optionalPrize = prizeRepository.findByTombolaAndNumber(tombola, prizeViewModel.getNumber());
+            if (optionalPrize.isPresent()) {
+                String message = messageSource.getMessage("messages.number_exists",
+                        new Object[]{optionalPrize.get().getNumber(), optionalPrize.get().getName()},
+                        Locale.GERMAN);
+                model.addAttribute("message", new Message(message, true));
+            } else {
                 prizeRepository.saveAndFlush(prize);
 
                 // Reset number to null but keep name for faster data entry
                 prizeViewModel.setNumber(null);
-
-            } catch (DataIntegrityViolationException e) {
-                model.addAttribute("message", new Message(NestedExceptionUtils.getMostSpecificCause(e).getMessage(), true));
             }
 
-
             model.addAttribute("prizes", prizeRepository.findAllByTombolaOrderByCreatedDateDesc(tombola));
+            model.addAttribute("totalNumberOfPrizes", prizeRepository.countByTombola(tombola));
             model.addAttribute("prizeViewModel", prizeViewModel);
 
             return "prizes";

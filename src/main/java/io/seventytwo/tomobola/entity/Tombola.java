@@ -9,7 +9,6 @@ import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.validation.constraints.NotEmpty;
-
 import java.sql.Timestamp;
 
 import static javax.persistence.GenerationType.IDENTITY;
