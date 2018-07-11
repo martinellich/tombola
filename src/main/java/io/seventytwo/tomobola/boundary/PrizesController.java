@@ -84,7 +84,7 @@ public class PrizesController {
     }
 
     @PostMapping("/add")
-    public String saveFromViewModel(Model model, HttpSession session, PrizeViewModel prizeViewModel) {
+    public String saveFromViewModel(Model model, HttpSession session, Locale locale, PrizeViewModel prizeViewModel) {
         Object tombolaFromSession = session.getAttribute("tombola");
         if (tombolaFromSession == null) {
             return "redirect:/tombolas";
@@ -100,7 +100,7 @@ public class PrizesController {
             if (optionalPrize.isPresent()) {
                 String message = messageSource.getMessage("messages.number_exists",
                         new Object[]{optionalPrize.get().getNumber(), optionalPrize.get().getName()},
-                        Locale.GERMAN);
+                        locale);
                 model.addAttribute("message", new Message(message, true));
             } else {
                 prizeRepository.saveAndFlush(prize);
