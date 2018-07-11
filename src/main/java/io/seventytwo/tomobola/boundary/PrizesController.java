@@ -76,7 +76,12 @@ public class PrizesController {
 
     @PostMapping
     public String save(Prize prize, Model model) {
-        Prize savedPrize = prizeRepository.saveAndFlush(prize);
+        Prize prizeFromDb = prizeRepository.findById(prize.getId()).get();
+
+        prizeFromDb.setNumber(prize.getNumber());
+        prizeFromDb.setName(prize.getName());
+
+        Prize savedPrize = prizeRepository.saveAndFlush(prizeFromDb);
 
         model.addAttribute("prize", savedPrize);
 
