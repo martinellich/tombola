@@ -28,11 +28,11 @@ public class PrizesController {
 
     @GetMapping
     public String findAll(Model model, HttpSession session) {
-        Object tombolaFromSession = session.getAttribute("tombola");
+        var tombolaFromSession = session.getAttribute("tombola");
         if (tombolaFromSession == null) {
             return "redirect:/tombolas";
         } else {
-            Tombola tombola = (Tombola) tombolaFromSession;
+            var tombola = (Tombola) tombolaFromSession;
 
             model.addAttribute("prizes", prizeRepository.findAllByTombolaOrderByCreatedDateDesc(tombola));
             model.addAttribute("totalNumberOfPrizes", prizeRepository.countByTombola(tombola));
@@ -44,11 +44,11 @@ public class PrizesController {
 
     @GetMapping("/search")
     public String findAll(@RequestParam String searchTerm, Model model, HttpSession session) {
-        Object tombolaFromSession = session.getAttribute("tombola");
+        var tombolaFromSession = session.getAttribute("tombola");
         if (tombolaFromSession == null) {
             return "redirect:/tombolas";
         } else {
-            Tombola tombola = (Tombola) tombolaFromSession;
+            var tombola = (Tombola) tombolaFromSession;
             List<Prize> prizes;
             if (StringUtils.isBlank(searchTerm)) {
                 prizes = prizeRepository.findAllByTombolaOrderByCreatedDateDesc(tombola);
@@ -76,12 +76,12 @@ public class PrizesController {
 
     @PostMapping
     public String save(Prize prize, Model model) {
-        Prize prizeFromDb = prizeRepository.findById(prize.getId()).get();
+        var prizeFromDb = prizeRepository.findById(prize.getId()).get();
 
         prizeFromDb.setNumber(prize.getNumber());
         prizeFromDb.setName(prize.getName());
 
-        Prize savedPrize = prizeRepository.saveAndFlush(prizeFromDb);
+        var savedPrize = prizeRepository.saveAndFlush(prizeFromDb);
 
         model.addAttribute("prize", savedPrize);
 
@@ -90,20 +90,20 @@ public class PrizesController {
 
     @PostMapping("/add")
     public String saveFromViewModel(Model model, HttpSession session, Locale locale, PrizeViewModel prizeViewModel) {
-        Object tombolaFromSession = session.getAttribute("tombola");
+        var tombolaFromSession = session.getAttribute("tombola");
         if (tombolaFromSession == null) {
             return "redirect:/tombolas";
         } else {
             Tombola tombola = (Tombola) tombolaFromSession;
 
-            Prize prize = new Prize();
+            var prize = new Prize();
             prize.setTombola(tombola);
             prize.setNumber(prizeViewModel.getNumber());
             prize.setName(prizeViewModel.getName());
 
-            Optional<Prize> optionalPrize = prizeRepository.findByTombolaAndNumber(tombola, prizeViewModel.getNumber());
+            var optionalPrize = prizeRepository.findByTombolaAndNumber(tombola, prizeViewModel.getNumber());
             if (optionalPrize.isPresent()) {
-                String message = messageSource.getMessage("messages.number_exists",
+                var message = messageSource.getMessage("messages.number_exists",
                         new Object[]{optionalPrize.get().getNumber(), optionalPrize.get().getName()},
                         locale);
                 model.addAttribute("message", new Message(message, true));

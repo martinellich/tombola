@@ -18,8 +18,22 @@
                 <li class="nav-item active" th:class="${page == 'index'} ? 'nav-item active' : 'nav-item'">
                     <a class="nav-link" th:href="@{/}">Home</a>
                 </li>
-                <li th:if="${session.tombola != null}" class="nav-item active" th:class="${page == 'tombola'} ? 'nav-item active' : 'nav-item'">
+                <li th:if="${session.tombola != null}" class="nav-item active"
+                    th:class="${page == 'tombola'} ? 'nav-item active' : 'nav-item'">
                     <a class="nav-link" th:href="@{/prizes}" th:text="${session.tombola.name}">Tombola</a>
+                </li>
+                <li th:if="${#authentication.principal != 'anonymousUser'}" class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#"
+                       id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                       aria-expanded="false" th:text="${#authentication.principal.username}">
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="javascript: document.logoutForm.submit()"
+                           th:text="#{messages.logout}"></a>
+                        <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+                            <input hidden type="submit" value="Sign Out"/>
+                        </form>
+                    </div>
                 </li>
             </ul>
             <form th:if="${session.tombola != null}" th:action="@{/prizes/search}" class="form-inline my-2 my-lg-0">
