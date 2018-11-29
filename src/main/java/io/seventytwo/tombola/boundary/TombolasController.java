@@ -1,7 +1,7 @@
-package io.seventytwo.tomobola.boundary;
+package io.seventytwo.tombola.boundary;
 
-import io.seventytwo.tomobola.entity.Tombola;
-import io.seventytwo.tomobola.entity.TombolaRepository;
+import io.seventytwo.tombola.entity.Tombola;
+import io.seventytwo.tombola.entity.TombolaRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

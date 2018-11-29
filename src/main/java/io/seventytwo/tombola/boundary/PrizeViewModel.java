@@ -1,4 +1,4 @@
-package io.seventytwo.tomobola.boundary;
+package io.seventytwo.tombola.boundary;
 
 public class PrizeViewModel {
 

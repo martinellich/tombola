@@ -1,4 +1,4 @@
-package io.seventytwo.tomobola.entity;
+package io.seventytwo.tombola.entity;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

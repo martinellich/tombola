@@ -1,8 +1,8 @@
-package io.seventytwo.tomobola.boundary;
+package io.seventytwo.tombola.boundary;
 
-import io.seventytwo.tomobola.entity.Prize;
-import io.seventytwo.tomobola.entity.PrizeRepository;
-import io.seventytwo.tomobola.entity.Tombola;
+import io.seventytwo.tombola.entity.Prize;
+import io.seventytwo.tombola.entity.PrizeRepository;
+import io.seventytwo.tombola.entity.Tombola;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Locale;
-import java.util.Optional;
 
 @RequestMapping("/prizes")
 @Controller

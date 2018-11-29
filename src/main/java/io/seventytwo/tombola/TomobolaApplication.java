@@ -1,4 +1,4 @@
-package io.seventytwo.tomobola;
+package io.seventytwo.tombola;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

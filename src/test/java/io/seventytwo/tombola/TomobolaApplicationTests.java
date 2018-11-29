@@ -1,4 +1,4 @@
-package io.seventytwo.tomobola;
+package io.seventytwo.tombola;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

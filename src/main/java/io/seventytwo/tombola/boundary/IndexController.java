@@ -1,4 +1,4 @@
-package io.seventytwo.tomobola.boundary;
+package io.seventytwo.tombola.boundary;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
