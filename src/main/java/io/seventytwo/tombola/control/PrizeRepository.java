@@ -1,5 +1,7 @@
-package io.seventytwo.tombola.entity;
+package io.seventytwo.tombola.control;
 
+import io.seventytwo.tombola.entity.Prize;
+import io.seventytwo.tombola.entity.Tombola;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

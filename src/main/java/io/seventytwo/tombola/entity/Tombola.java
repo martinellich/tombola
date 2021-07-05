@@ -9,7 +9,7 @@ import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.validation.constraints.NotEmpty;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -25,10 +25,10 @@ public class Tombola {
     private String name;
 
     @CreatedDate
-    private Timestamp createdDate;
+    private LocalDateTime createdDate;
 
     @LastModifiedDate
-    private Timestamp lastModifiedDate;
+    private LocalDateTime lastModifiedDate;
 
     public Integer getId() {
         return id;
@@ -46,19 +46,19 @@ public class Tombola {
         this.name = name;
     }
 
-    public Timestamp getCreatedDate() {
+    public LocalDateTime getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(Timestamp createdDate) {
+    public void setCreatedDate(LocalDateTime createdDate) {
         this.createdDate = createdDate;
     }
 
-    public Timestamp getLastModifiedDate() {
+    public LocalDateTime getLastModifiedDate() {
         return lastModifiedDate;
     }
 
-    public void setLastModifiedDate(Timestamp lastModifiedDate) {
+    public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
     }
 }

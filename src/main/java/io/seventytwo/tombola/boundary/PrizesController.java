@@ -1,7 +1,7 @@
 package io.seventytwo.tombola.boundary;
 
 import io.seventytwo.tombola.entity.Prize;
-import io.seventytwo.tombola.entity.PrizeRepository;
+import io.seventytwo.tombola.control.PrizeRepository;
 import io.seventytwo.tombola.entity.Tombola;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.MessageSource;
@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 @RequestMapping("/prizes")
 @Controller
@@ -74,16 +75,21 @@ public class PrizesController {
     }
 
     @PostMapping
-    public String save(Prize prize, Model model) {
-        var prizeFromDb = prizeRepository.findById(prize.getId()).get();
+    public String save(Prize prize, Model model, Locale locale) {
+        Optional<Prize> optionalPrize = prizeRepository.findById(prize.getId());
+        if (optionalPrize.isPresent()) {
+            var prizeFromDb = optionalPrize.get();
 
-        prizeFromDb.setNumber(prize.getNumber());
-        prizeFromDb.setName(prize.getName());
+            prizeFromDb.setNumber(prize.getNumber());
+            prizeFromDb.setName(prize.getName());
 
-        var savedPrize = prizeRepository.saveAndFlush(prizeFromDb);
+            var savedPrize = prizeRepository.saveAndFlush(prizeFromDb);
 
-        model.addAttribute("prize", savedPrize);
-
+            model.addAttribute("prize", savedPrize);
+        } else {
+            var message = messageSource.getMessage("messages.prize_does_not_exists", new Object[]{prize.getNumber()}, locale);
+            model.addAttribute("message", new Message(message, true));
+        }
         return "prize";
     }
 
@@ -103,8 +109,7 @@ public class PrizesController {
             var optionalPrize = prizeRepository.findByTombolaAndNumber(tombola, prizeViewModel.getNumber());
             if (optionalPrize.isPresent()) {
                 var message = messageSource.getMessage("messages.number_exists",
-                        new Object[]{optionalPrize.get().getNumber(), optionalPrize.get().getName()},
-                        locale);
+                        new Object[]{optionalPrize.get().getNumber(), optionalPrize.get().getName()}, locale);
                 model.addAttribute("message", new Message(message, true));
             } else {
                 prizeRepository.saveAndFlush(prize);
