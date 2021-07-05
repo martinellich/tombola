@@ -55,7 +55,7 @@ public class PrizesController {
                 if (StringUtils.isNumeric(searchTerm)) {
                     prizes = prizeRepository.findAllByTombolaAndNumberOrderByCreatedDateDesc(tombola, Integer.parseInt(searchTerm));
                 } else {
-                    prizes = prizeRepository.findAllByTombolaAndNameLikeOrderByCreatedDateDesc(tombola, searchTerm);
+                    prizes = prizeRepository.findAllByTombolaAndNameLikeIgnoreCaseOrderByCreatedDateDesc(tombola, searchTerm);
                 }
             }
             model.addAttribute("prizes", prizes);
