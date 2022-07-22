@@ -6,10 +6,10 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @SpringBootApplication
 @EnableJpaAuditing
-public class TomobolaApplication {
+public class TombolaApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(TomobolaApplication.class, args);
+        SpringApplication.run(TombolaApplication.class, args);
     }
 
 }
