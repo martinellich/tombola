@@ -13,7 +13,7 @@ public interface PrizeRepository extends JpaRepository<Prize, Integer> {
 
     List<Prize> findAllByTombolaAndNumberOrderByCreatedDateDesc(Tombola tombola, Integer number);
 
-    List<Prize> findAllByTombolaAndNameLikeIgnoreCaseOrderByCreatedDateDesc(Tombola tombola, String name);
+    List<Prize> findAllByTombolaAndNameContainsIgnoreCaseOrderByCreatedDateDesc(Tombola tombola, String name);
 
     Optional<Prize> findByTombolaAndNumber(Tombola tombola, Integer number);
 

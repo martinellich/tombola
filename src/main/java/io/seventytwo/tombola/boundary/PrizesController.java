@@ -27,7 +27,7 @@ public class PrizesController {
     }
 
     @GetMapping
-    public String findAll(Model model, HttpSession session) {
+    public String search(Model model, HttpSession session) {
         var tombolaFromSession = session.getAttribute("tombola");
         if (tombolaFromSession == null) {
             return "redirect:/tombolas";
@@ -43,7 +43,7 @@ public class PrizesController {
     }
 
     @GetMapping("/search")
-    public String findAll(@RequestParam String searchTerm, Model model, HttpSession session) {
+    public String search(@RequestParam String searchTerm, Model model, HttpSession session) {
         var tombolaFromSession = session.getAttribute("tombola");
         if (tombolaFromSession == null) {
             return "redirect:/tombolas";
@@ -56,7 +56,7 @@ public class PrizesController {
                 if (StringUtils.isNumeric(searchTerm)) {
                     prizes = prizeRepository.findAllByTombolaAndNumberOrderByCreatedDateDesc(tombola, Integer.parseInt(searchTerm));
                 } else {
-                    prizes = prizeRepository.findAllByTombolaAndNameLikeIgnoreCaseOrderByCreatedDateDesc(tombola, searchTerm);
+                    prizes = prizeRepository.findAllByTombolaAndNameContainsIgnoreCaseOrderByCreatedDateDesc(tombola, searchTerm);
                 }
             }
             model.addAttribute("prizes", prizes);

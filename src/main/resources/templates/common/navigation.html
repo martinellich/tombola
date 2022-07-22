@@ -38,7 +38,7 @@
             </ul>
             <form th:if="${session.tombola != null}" th:action="@{/prizes/search}" class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" type="search" name="searchTerm" th:placeholder="#{messages.search}">
-                <button class="btn my-2 my-sm-0" type="submit">Search</button>
+                <button class="btn my-2 my-sm-0" type="submit" th:text="#{messages.search}">Search</button>
             </form>
         </div>
     </nav>

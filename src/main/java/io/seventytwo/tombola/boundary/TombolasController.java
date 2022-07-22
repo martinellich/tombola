@@ -42,7 +42,7 @@ public class TombolasController {
     public String selectById(@PathVariable Integer id, HttpSession session, Model model) {
         tombolaRepository.findById(id).ifPresent(tombola -> session.setAttribute("tombola", tombola));
 
-        return prizesController.findAll(model, session);
+        return prizesController.search(model, session);
     }
 
     @GetMapping("/new")
