@@ -1,15 +1,15 @@
-package io.seventytwo.tombola.boundary;
+package io.seventytwo.tombola.boundary
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.stereotype.Controller
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.RequestMapping
 
-@RequestMapping("/")
 @Controller
-public class IndexController {
+@RequestMapping("/")
+class IndexController {
 
     @GetMapping
-    public String get() {
-        return "redirect:/tombolas";
+    fun get(): String {
+        return "redirect:/tombolas"
     }
 }

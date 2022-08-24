@@ -1,91 +1,30 @@
-package io.seventytwo.tombola.entity;
+package io.seventytwo.tombola.entity
 
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
-
-import static javax.persistence.GenerationType.IDENTITY;
+import org.springframework.data.annotation.CreatedDate
+import org.springframework.data.annotation.LastModifiedDate
+import org.springframework.data.jpa.domain.support.AuditingEntityListener
+import java.time.LocalDateTime
+import javax.persistence.*
 
 @Entity
-@EntityListeners(AuditingEntityListener.class)
-@Table(uniqueConstraints = {@UniqueConstraint(name = "UX_PRIZE", columnNames = {"number", "tombola_id"})})
-public class Prize {
+@EntityListeners(AuditingEntityListener::class)
+@Table(uniqueConstraints = [UniqueConstraint(name = "UX_PRIZE", columnNames = ["number", "tombola_id"])])
+class Prize(
 
-    @Id
-    @GeneratedValue(strategy = IDENTITY)
-    private Integer id;
+    var number: Int? = null,
 
-    @NotNull
-    private Integer number;
-
-    @NotEmpty
-    private String name;
+    var name: String? = null,
 
     @ManyToOne(optional = false)
-    private Tombola tombola;
+    var tombola: Tombola? = null,
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    var id: Int? = null,
 
     @CreatedDate
-    private LocalDateTime createdDate;
+    var createdDate: LocalDateTime? = null,
 
     @LastModifiedDate
-    private LocalDateTime lastModifiedDate;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getNumber() {
-        return number;
-    }
-
-    public void setNumber(Integer number) {
-        this.number = number;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Tombola getTombola() {
-        return tombola;
-    }
-
-    public void setTombola(Tombola tombola) {
-        this.tombola = tombola;
-    }
-
-    public LocalDateTime getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(LocalDateTime createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public LocalDateTime getLastModifiedDate() {
-        return lastModifiedDate;
-    }
-
-    public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
-        this.lastModifiedDate = lastModifiedDate;
-    }
-}
+    var lastModifiedDate: LocalDateTime? = null
+)

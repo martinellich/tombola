@@ -1,21 +1,19 @@
-package io.seventytwo.tombola.control;
+package io.seventytwo.tombola.control
 
-import io.seventytwo.tombola.entity.Prize;
-import io.seventytwo.tombola.entity.Tombola;
-import org.springframework.data.jpa.repository.JpaRepository;
+import io.seventytwo.tombola.entity.Prize
+import io.seventytwo.tombola.entity.Tombola
+import org.springframework.data.jpa.repository.JpaRepository
+import java.util.*
 
-import java.util.List;
-import java.util.Optional;
+interface PrizeRepository : JpaRepository<Prize?, Int?> {
 
-public interface PrizeRepository extends JpaRepository<Prize, Integer> {
+    fun findAllByTombolaOrderByCreatedDateDesc(tombola: Tombola?): List<Prize?>?
 
-    List<Prize> findAllByTombolaOrderByCreatedDateDesc(Tombola tombola);
+    fun findAllByTombolaAndNumberOrderByCreatedDateDesc(tombola: Tombola?, number: Int?): List<Prize?>?
 
-    List<Prize> findAllByTombolaAndNumberOrderByCreatedDateDesc(Tombola tombola, Integer number);
+    fun findAllByTombolaAndNameContainsIgnoreCaseOrderByCreatedDateDesc(tombola: Tombola?, name: String?): List<Prize?>?
 
-    List<Prize> findAllByTombolaAndNameContainsIgnoreCaseOrderByCreatedDateDesc(Tombola tombola, String name);
+    fun findByTombolaAndNumber(tombola: Tombola?, number: Int?): Optional<Prize?>?
 
-    Optional<Prize> findByTombolaAndNumber(Tombola tombola, Integer number);
-
-    long countByTombola(Tombola tombola);
+    fun countByTombola(tombola: Tombola?): Long
 }

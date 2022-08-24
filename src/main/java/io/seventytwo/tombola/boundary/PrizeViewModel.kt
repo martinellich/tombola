@@ -1,23 +1,7 @@
-package io.seventytwo.tombola.boundary;
+package io.seventytwo.tombola.boundary
 
-public class PrizeViewModel {
+class PrizeViewModel {
 
-    private Integer number;
-    private String name;
-
-    public Integer getNumber() {
-        return number;
-    }
-
-    public void setNumber(Integer number) {
-        this.number = number;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
+    var number: Int? = null
+    var name: String? = null
 }

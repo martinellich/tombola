@@ -1,128 +1,105 @@
-package io.seventytwo.tombola.boundary;
+package io.seventytwo.tombola.boundary
 
-import io.seventytwo.tombola.entity.Prize;
-import io.seventytwo.tombola.control.PrizeRepository;
-import io.seventytwo.tombola.entity.Tombola;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.context.MessageSource;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import io.seventytwo.tombola.control.PrizeRepository
+import io.seventytwo.tombola.entity.Prize
+import io.seventytwo.tombola.entity.Tombola
+import org.apache.commons.lang3.StringUtils
+import org.springframework.context.MessageSource
+import org.springframework.stereotype.Controller
+import org.springframework.ui.Model
+import org.springframework.web.bind.annotation.*
+import java.util.*
+import javax.servlet.http.HttpSession
 
-import javax.servlet.http.HttpSession;
-import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
-
-@RequestMapping("/prizes")
 @Controller
-public class PrizesController {
-
-    private final PrizeRepository prizeRepository;
-    private final MessageSource messageSource;
-
-    public PrizesController(PrizeRepository prizeRepository, MessageSource messageSource) {
-        this.prizeRepository = prizeRepository;
-        this.messageSource = messageSource;
-    }
+@RequestMapping("/prizes")
+class PrizesController(private val prizeRepository: PrizeRepository, private val messageSource: MessageSource) {
 
     @GetMapping
-    public String search(Model model, HttpSession session) {
-        var tombolaFromSession = session.getAttribute("tombola");
-        if (tombolaFromSession == null) {
-            return "redirect:/tombolas";
+    fun search(model: Model, session: HttpSession): String {
+        val tombolaFromSession = session.getAttribute("tombola")
+        return if (tombolaFromSession == null) {
+            "redirect:/tombolas"
         } else {
-            var tombola = (Tombola) tombolaFromSession;
-
-            model.addAttribute("prizes", prizeRepository.findAllByTombolaOrderByCreatedDateDesc(tombola));
-            model.addAttribute("totalNumberOfPrizes", prizeRepository.countByTombola(tombola));
-            model.addAttribute("prizeViewModel", new PrizeViewModel());
-
-            return "prizes";
+            val tombola = tombolaFromSession as Tombola
+            model.addAttribute("prizes", prizeRepository.findAllByTombolaOrderByCreatedDateDesc(tombola))
+            model.addAttribute("totalNumberOfPrizes", prizeRepository.countByTombola(tombola))
+            model.addAttribute("prizeViewModel", PrizeViewModel())
+            "prizes"
         }
     }
 
     @GetMapping("/search")
-    public String search(@RequestParam String searchTerm, Model model, HttpSession session) {
-        var tombolaFromSession = session.getAttribute("tombola");
-        if (tombolaFromSession == null) {
-            return "redirect:/tombolas";
+    fun search(@RequestParam searchTerm: String, model: Model, session: HttpSession): String {
+        val tombolaFromSession = session.getAttribute("tombola")
+        return if (tombolaFromSession == null) {
+            "redirect:/tombolas"
         } else {
-            var tombola = (Tombola) tombolaFromSession;
-            List<Prize> prizes;
-            if (StringUtils.isBlank(searchTerm)) {
-                prizes = prizeRepository.findAllByTombolaOrderByCreatedDateDesc(tombola);
+            val tombola = tombolaFromSession as Tombola
+            val prizes: List<Prize?>?
+            prizes = if (StringUtils.isBlank(searchTerm)) {
+                prizeRepository.findAllByTombolaOrderByCreatedDateDesc(tombola)
             } else {
                 if (StringUtils.isNumeric(searchTerm)) {
-                    prizes = prizeRepository.findAllByTombolaAndNumberOrderByCreatedDateDesc(tombola, Integer.parseInt(searchTerm));
+                    prizeRepository.findAllByTombolaAndNumberOrderByCreatedDateDesc(tombola, searchTerm.toInt())
                 } else {
-                    prizes = prizeRepository.findAllByTombolaAndNameContainsIgnoreCaseOrderByCreatedDateDesc(tombola, searchTerm);
+                    prizeRepository.findAllByTombolaAndNameContainsIgnoreCaseOrderByCreatedDateDesc(tombola, searchTerm)
                 }
             }
-            model.addAttribute("prizes", prizes);
-            model.addAttribute("totalNumberOfPrizes", prizeRepository.countByTombola(tombola));
-            model.addAttribute("prizeViewModel", new PrizeViewModel());
-
-            return "prizes";
+            model.addAttribute("prizes", prizes)
+            model.addAttribute("totalNumberOfPrizes", prizeRepository.countByTombola(tombola))
+            model.addAttribute("prizeViewModel", PrizeViewModel())
+            "prizes"
         }
     }
 
     @GetMapping("{id}")
-    public String findById(@PathVariable Integer id, Model model) {
-        prizeRepository.findById(id).ifPresent(prize -> model.addAttribute("prize", prize));
-
-        return "prize";
+    fun findById(@PathVariable id: Int, model: Model): String {
+        prizeRepository.findById(id).ifPresent { prize: Prize? -> model.addAttribute("prize", prize) }
+        return "prize"
     }
 
     @PostMapping
-    public String save(Prize prize, Model model, Locale locale) {
-        Optional<Prize> optionalPrize = prizeRepository.findById(prize.getId());
-        if (optionalPrize.isPresent()) {
-            var prizeFromDb = optionalPrize.get();
-
-            prizeFromDb.setNumber(prize.getNumber());
-            prizeFromDb.setName(prize.getName());
-
-            var savedPrize = prizeRepository.saveAndFlush(prizeFromDb);
-
-            model.addAttribute("prize", savedPrize);
+    fun save(prize: Prize, model: Model, locale: Locale): String {
+        val optionalPrize = prizeRepository.findById(prize.id!!)
+        if (optionalPrize.isPresent) {
+            val prizeFromDb = optionalPrize.get()
+            prizeFromDb.number = prize.number
+            prizeFromDb.name = prize.name
+            val savedPrize = prizeRepository.saveAndFlush(prizeFromDb)
+            model.addAttribute("prize", savedPrize)
         } else {
-            var message = messageSource.getMessage("messages.prize_does_not_exists", new Object[]{prize.getNumber()}, locale);
-            model.addAttribute("message", new Message(message, true));
+            val message = messageSource.getMessage("messages.prize_does_not_exists", arrayOf<Any?>(prize.number), locale)
+            model.addAttribute("message", Message(message, true))
         }
-        return "prize";
+        return "prize"
     }
 
     @PostMapping("/add")
-    public String saveFromViewModel(Model model, HttpSession session, Locale locale, PrizeViewModel prizeViewModel) {
-        var tombolaFromSession = session.getAttribute("tombola");
-        if (tombolaFromSession == null) {
-            return "redirect:/tombolas";
+    fun saveFromViewModel(model: Model, session: HttpSession, locale: Locale, prizeViewModel: PrizeViewModel): String {
+        val tombolaFromSession = session.getAttribute("tombola")
+        return if (tombolaFromSession == null) {
+            "redirect:/tombolas"
         } else {
-            Tombola tombola = (Tombola) tombolaFromSession;
-
-            var prize = new Prize();
-            prize.setTombola(tombola);
-            prize.setNumber(prizeViewModel.getNumber());
-            prize.setName(prizeViewModel.getName());
-
-            var optionalPrize = prizeRepository.findByTombolaAndNumber(tombola, prizeViewModel.getNumber());
-            if (optionalPrize.isPresent()) {
-                var message = messageSource.getMessage("messages.number_exists",
-                        new Object[]{optionalPrize.get().getNumber(), optionalPrize.get().getName()}, locale);
-                model.addAttribute("message", new Message(message, true));
+            val tombola = tombolaFromSession as Tombola
+            val prize = Prize()
+            prize.tombola = tombola
+            prize.number = prizeViewModel.number
+            prize.name = prizeViewModel.name
+            val optionalPrize = prizeRepository.findByTombolaAndNumber(tombola, prizeViewModel.number)
+            if (optionalPrize!!.isPresent) {
+                val message = messageSource.getMessage("messages.number_exists", arrayOf<Any?>(optionalPrize.get().number, optionalPrize.get().name), locale)
+                model.addAttribute("message", Message(message, true))
             } else {
-                prizeRepository.saveAndFlush(prize);
+                prizeRepository.saveAndFlush(prize)
 
                 // Reset number to null but keep name for faster data entry
-                prizeViewModel.setNumber(null);
+                prizeViewModel.number = null
             }
-
-            model.addAttribute("prizes", prizeRepository.findAllByTombolaOrderByCreatedDateDesc(tombola));
-            model.addAttribute("totalNumberOfPrizes", prizeRepository.countByTombola(tombola));
-            model.addAttribute("prizeViewModel", prizeViewModel);
-
-            return "prizes";
+            model.addAttribute("prizes", prizeRepository.findAllByTombolaOrderByCreatedDateDesc(tombola))
+            model.addAttribute("totalNumberOfPrizes", prizeRepository.countByTombola(tombola))
+            model.addAttribute("prizeViewModel", prizeViewModel)
+            "prizes"
         }
     }
 }

@@ -1,13 +1,12 @@
-package io.seventytwo.tombola;
+package io.seventytwo.tombola
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.jupiter.api.Test
+import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
-class TombolaApplicationTest {
+internal class TombolaApplicationTest {
 
     @Test
-    void contextLoads() {
+    fun contextLoads() {
     }
-
 }

@@ -1,63 +1,47 @@
-package io.seventytwo.tombola.boundary;
+package io.seventytwo.tombola.boundary
 
-import io.seventytwo.tombola.entity.Tombola;
-import io.seventytwo.tombola.control.TombolaRepository;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import io.seventytwo.tombola.control.TombolaRepository
+import io.seventytwo.tombola.entity.Tombola
+import org.springframework.stereotype.Controller
+import org.springframework.ui.Model
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestMapping
+import javax.servlet.http.HttpSession
 
-import javax.servlet.http.HttpSession;
-
-@RequestMapping("/tombolas")
 @Controller
-public class TombolasController {
-
-    private final TombolaRepository tombolaRepository;
-    private final PrizesController prizesController;
-
-    public TombolasController(TombolaRepository tombolaRepository, PrizesController prizesController) {
-        this.tombolaRepository = tombolaRepository;
-        this.prizesController = prizesController;
-    }
+@RequestMapping("/tombolas")
+class TombolasController(private val tombolaRepository: TombolaRepository, private val prizesController: PrizesController) {
 
     @GetMapping
-    public String findAll(Model model) {
-        model.addAttribute("tombolas", tombolaRepository.findAll());
-
-        return "tombolas";
+    fun findAll(model: Model): String {
+        model.addAttribute("tombolas", tombolaRepository.findAll())
+        return "tombolas"
     }
 
-
     @GetMapping("{id}")
-    public String findById(@PathVariable Integer id, Model model) {
-        tombolaRepository.findById(id).ifPresent(tombola -> model.addAttribute("tombola", tombola));
-
-        return "tombola";
+    fun findById(@PathVariable id: Int, model: Model): String {
+        tombolaRepository.findById(id).ifPresent { tombola: Tombola? -> model.addAttribute("tombola", tombola) }
+        return "tombola"
     }
 
     @GetMapping("{id}/select")
-    public String selectById(@PathVariable Integer id, HttpSession session, Model model) {
-        tombolaRepository.findById(id).ifPresent(tombola -> session.setAttribute("tombola", tombola));
-
-        return prizesController.search(model, session);
+    fun selectById(@PathVariable id: Int, session: HttpSession, model: Model): String? {
+        tombolaRepository.findById(id).ifPresent { tombola: Tombola? -> session.setAttribute("tombola", tombola) }
+        return prizesController.search(model, session)
     }
 
     @GetMapping("/new")
-    public String get(Model model) {
-        model.addAttribute("tombola", new Tombola());
-
-        return "tombola";
+    operator fun get(model: Model): String {
+        model.addAttribute("tombola", Tombola())
+        return "tombola"
     }
 
-
     @PostMapping
-    public String save(Model model, Tombola tombola) {
-        Tombola savedTombola = tombolaRepository.save(tombola);
-        model.addAttribute("tombola", savedTombola);
-
-        return "tombola";
+    fun save(model: Model, tombola: Tombola): String {
+        val savedTombola = tombolaRepository.save(tombola)
+        model.addAttribute("tombola", savedTombola)
+        return "tombola"
     }
 }

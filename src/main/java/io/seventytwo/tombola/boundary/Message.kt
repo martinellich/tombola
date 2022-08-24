@@ -1,4 +1,3 @@
-package io.seventytwo.tombola.boundary;
+package io.seventytwo.tombola.boundary
 
-public record Message(String message, boolean error) {
-}
+data class Message(val message: String, val error: Boolean)

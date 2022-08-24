@@ -1,15 +1,13 @@
-package io.seventytwo.tombola;
+package io.seventytwo.tombola
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.runApplication
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing
 
-@SpringBootApplication
 @EnableJpaAuditing
-public class TombolaApplication {
+@SpringBootApplication
+class TombolaApplication
 
-    public static void main(String[] args) {
-        SpringApplication.run(TombolaApplication.class, args);
-    }
-
+fun main(args: Array<String>) {
+    runApplication<TombolaApplication>(*args)
 }
