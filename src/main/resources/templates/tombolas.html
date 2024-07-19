@@ -2,11 +2,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="common/head :: head"></head>
+<head th:replace="~{common/head :: head}"></head>
 
 <body>
 
-<div th:replace="common/navigation :: navigation ('index')"></div>
+<div th:replace="~{common/navigation :: navigation ('index')}"></div>
 
 <div class="container">
     <div class="row">
@@ -36,7 +36,7 @@
     </div>
 </div>
 
-<div th:replace="common/footer :: footer"></div>
+<div th:replace="~{common/footer :: footer}"></div>
 
 </body>
 
