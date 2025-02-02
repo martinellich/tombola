@@ -123,6 +123,15 @@ class TombolasControllerTest {
 		// Check if the prize table contains the added tombola
 		prizesTable = tombolaPage.getFirstByXPath("//table");
 		assertThat(prizesTable.getRows()).hasSize(2);
+
+		// Search for non-existing prize number
+		searchForm = prizePage.getFormByName("search-form");
+		searchForm.getInputByName("searchTerm").setValueAttribute("999");
+		tombolaPage = searchForm.getButtonByName("search").click();
+
+		// Check if the prize table is empty
+		prizesTable = tombolaPage.getFirstByXPath("//table");
+		assertThat(prizesTable.getRows()).hasSize(1);
 	}
 
 	@WithMockUser
