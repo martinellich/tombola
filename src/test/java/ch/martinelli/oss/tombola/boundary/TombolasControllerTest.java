@@ -108,16 +108,31 @@ class TombolasControllerTest {
 
 		h1 = prizePage.getFirstByXPath("//h1");
 		assertThat(h1.getTextContent()).isEqualTo("Puzzle");
+
+		// Navigate to the created tombola
+		tombolaPage = webClient.getPage("http://localhost/tombolas/1");
+
+		// Check name
+		h1 = tombolaPage.getFirstByXPath("//h1");
+		assertThat(h1.getTextContent()).isEqualTo("Test Tombola");
+
+		HtmlForm searchForm = prizePage.getFormByName("search-form");
+		searchForm.getInputByName("searchTerm").setValueAttribute("Puzzle");
+		tombolaPage = searchForm.getButtonByName("search").click();
+
+		// Check if the prize table contains the added tombola
+		prizesTable = tombolaPage.getFirstByXPath("//table");
+		assertThat(prizesTable.getRows()).hasSize(2);
 	}
 
 	@WithMockUser
 	@Test
 	void tombola_not_found() throws Exception {
 		// Navigate to non existing tombola
-		HtmlPage tombolasPage = webClient.getPage("http://localhost/tombolas/999");
+		HtmlPage tombolaPage = webClient.getPage("http://localhost/tombolas/999");
 
 		// Check the error message
-		DomElement message = tombolasPage.getElementById("message");
+		DomElement message = tombolaPage.getElementById("message");
 		assertThat(message.getTextContent()).contains("Die Tombola 999 ist nicht vorhanden");
 	}
 
