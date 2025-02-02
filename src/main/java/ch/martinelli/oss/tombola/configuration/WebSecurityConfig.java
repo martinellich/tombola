@@ -29,7 +29,7 @@ public class WebSecurityConfig {
 		return http.build();
 	}
 
-	@SuppressWarnings("java:S6437")
+	@SuppressWarnings({ "java:S6437", "deprecation" })
 	@Bean
 	public UserDetailsService userDetailsService() {
 		var user = User.withDefaultPasswordEncoder().username("user").password("tombola").roles("USER").build();
