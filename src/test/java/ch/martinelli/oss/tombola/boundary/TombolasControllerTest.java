@@ -1,10 +1,7 @@
 package ch.martinelli.oss.tombola.boundary;
 
 import org.htmlunit.WebClient;
-import org.htmlunit.html.HtmlForm;
-import org.htmlunit.html.HtmlHeading1;
-import org.htmlunit.html.HtmlPage;
-import org.htmlunit.html.HtmlTable;
+import org.htmlunit.html.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,6 +11,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.htmlunit.MockMvcWebClientBuilder;
+
+import java.util.Locale;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -34,6 +33,8 @@ class TombolasControllerTest {
 		// Configure WebClient
 		webClient.getOptions().setThrowExceptionOnScriptError(false);
 		webClient.getOptions().setJavaScriptEnabled(true);
+
+		Locale.setDefault(Locale.GERMAN);
 	}
 
 	@AfterEach
@@ -107,6 +108,17 @@ class TombolasControllerTest {
 
 		h1 = prizePage.getFirstByXPath("//h1");
 		assertThat(h1.getTextContent()).isEqualTo("Puzzle");
+	}
+
+	@WithMockUser
+	@Test
+	void tombola_not_found() throws Exception {
+		// Navigate to non existing tombola
+		HtmlPage tombolasPage = webClient.getPage("http://localhost/tombolas/999");
+
+		// Check the error message
+		DomElement message = tombolasPage.getElementById("message");
+		assertThat(message.getTextContent()).contains("Die Tombola 999 ist nicht vorhanden");
 	}
 
 }
