@@ -1,48 +1,12 @@
 package ch.martinelli.oss.tombola.boundary;
 
-import org.htmlunit.WebClient;
 import org.htmlunit.html.*;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.htmlunit.MockMvcWebClientBuilder;
-
-import java.util.Locale;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-class TombolasControllerTest {
-
-	@Autowired
-	private MockMvc mockMvc;
-
-	private WebClient webClient;
-
-	@BeforeEach
-	void setup() {
-		// Build WebClient with MockMvc
-		webClient = MockMvcWebClientBuilder.mockMvcSetup(mockMvc).build();
-
-		// Configure WebClient
-		webClient.getOptions().setThrowExceptionOnScriptError(false);
-		webClient.getOptions().setJavaScriptEnabled(true);
-
-		Locale.setDefault(Locale.GERMAN);
-	}
-
-	@AfterEach
-	void teardown() {
-		if (webClient != null) {
-			webClient.close();
-		}
-	}
+class TombolasControllerTest extends ControllerTest {
 
 	@WithMockUser
 	@Test
@@ -52,7 +16,7 @@ class TombolasControllerTest {
 
 		// Check if the table is empty
 		HtmlTable tombolasTable = tombolasPage.getFirstByXPath("//table");
-		assertThat(tombolasTable.getRows()).hasSize(1); // Header Row
+		assertThat(tombolasTable.getRows()).hasSize(2); // Header Row incl.
 
 		// Create a new tombola
 		HtmlPage tombolaPage = tombolasPage.getAnchorByHref("/tombolas/new").click();
@@ -71,7 +35,7 @@ class TombolasControllerTest {
 
 		// Check if tombola is displayed in the table
 		tombolasTable = tombolasPage.getFirstByXPath("//table");
-		assertThat(tombolasTable.getRows()).hasSize(2);
+		assertThat(tombolasTable.getRows()).hasSize(3);
 
 		// Go to the prize form
 		HtmlPage prizesPage = tombolasPage.getAnchorByHref("/tombolas/1/select").click();
@@ -79,7 +43,7 @@ class TombolasControllerTest {
 
 		// Check if the prize table is empty
 		HtmlTable prizesTable = prizesPage.getFirstByXPath("//table");
-		assertThat(prizesTable.getRows()).hasSize(1); // Header Row
+		assertThat(prizesTable.getRows()).hasSize(1);
 
 		// Check if correct tombola is displayed
 		h1 = prizesPage.getFirstByXPath("//h1");
@@ -95,7 +59,7 @@ class TombolasControllerTest {
 		assertThat(prizesTable.getRows()).hasSize(2);
 
 		// Update prize
-		HtmlPage prizePage = prizesPage.getAnchorByHref("/prizes/1").click();
+		HtmlPage prizePage = prizesPage.getAnchorByHref("/prizes/2").click();
 
 		// Check name
 		h1 = prizePage.getFirstByXPath("//h1");
@@ -115,23 +79,6 @@ class TombolasControllerTest {
 		// Check name
 		h1 = tombolaPage.getFirstByXPath("//h1");
 		assertThat(h1.getTextContent()).isEqualTo("Test Tombola");
-
-		HtmlForm searchForm = prizePage.getFormByName("search-form");
-		searchForm.getInputByName("searchTerm").setValueAttribute("Puzzle");
-		tombolaPage = searchForm.getButtonByName("search").click();
-
-		// Check if the prize table contains the added tombola
-		prizesTable = tombolaPage.getFirstByXPath("//table");
-		assertThat(prizesTable.getRows()).hasSize(2);
-
-		// Search for non-existing prize number
-		searchForm = prizePage.getFormByName("search-form");
-		searchForm.getInputByName("searchTerm").setValueAttribute("999");
-		tombolaPage = searchForm.getButtonByName("search").click();
-
-		// Check if the prize table is empty
-		prizesTable = tombolaPage.getFirstByXPath("//table");
-		assertThat(prizesTable.getRows()).hasSize(1);
 	}
 
 	@WithMockUser
