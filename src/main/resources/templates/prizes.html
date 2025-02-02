@@ -13,18 +13,19 @@
         <div class="col-lg">
             <h1>[[${session.tombola.name}]]</h1>
 
-            <form th:action="@{/prizes/add}" th:object="${prizeViewModel}" method="post">
+            <form name="prizes-form" th:action="@{/prizes/add}" th:object="${prizeViewModel}" method="post">
                 <div class="form-group">
                     <label for="number" th:text="#{messages.number}">Name</label>
-                    <input type="text" class="form-control" id="number" th:placeholder="#{messages.number}"
+                    <input type="text" class="form-control" id="number" name="number"
+                           th:placeholder="#{messages.number}"
                            th:field="*{number}" required autofocus>
                 </div>
                 <div class="form-group">
                     <label for="name" th:text="#{messages.name}">Name</label>
-                    <input type="text" class="form-control" id="name" th:placeholder="#{messages.name}"
+                    <input type="text" class="form-control" id="name" name="name" th:placeholder="#{messages.name}"
                            th:field="*{name}" required>
                 </div>
-                <button type="submit" class="btn btn-primary" th:text="#{messages.save}">Save</button>
+                <button type="submit" class="btn btn-primary" name="save" th:text="#{messages.save}">Save</button>
                 <a class="btn" th:href="@{/}" th:text="#{messages.back}"></a>
             </form>
 
