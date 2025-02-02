@@ -57,7 +57,7 @@ public class TombolasController {
 
 	@PostMapping
 	public String save(Model model, Tombola tombola) {
-		Tombola savedTombola = tombolaRepository.save(tombola);
+		var savedTombola = tombolaRepository.save(tombola);
 		model.addAttribute(TOMBOLA, savedTombola);
 
 		return TOMBOLA;

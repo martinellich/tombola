@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Locale;
-import java.util.Optional;
 
 @RequestMapping("/prizes")
 @Controller
@@ -97,7 +96,7 @@ public class PrizesController {
 
 	@PostMapping
 	public String save(Prize prize, Model model, Locale locale) {
-		Optional<Prize> optionalPrize = prizeRepository.findById(prize.getId());
+		var optionalPrize = prizeRepository.findById(prize.getId());
 		if (optionalPrize.isPresent()) {
 			var prizeFromDb = optionalPrize.get();
 
@@ -123,7 +122,7 @@ public class PrizesController {
 			return REDIRECT_TOMBOLAS;
 		}
 		else {
-			Tombola tombola = (Tombola) tombolaFromSession;
+			var tombola = (Tombola) tombolaFromSession;
 
 			var prize = new Prize();
 			prize.setTombola(tombola);

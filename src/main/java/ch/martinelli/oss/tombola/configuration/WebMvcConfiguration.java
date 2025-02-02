@@ -26,16 +26,16 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 
 	@Bean
 	public LocaleChangeInterceptor localeChangeInterceptor() {
-		var lci = new LocaleChangeInterceptor();
-		lci.setParamName("lang");
-		return lci;
+		var localeChangeInterceptor = new LocaleChangeInterceptor();
+		localeChangeInterceptor.setParamName("lang");
+		return localeChangeInterceptor;
 	}
 
 	@Bean
 	public LocaleResolver localeResolver() {
-		var slr = new SessionLocaleResolver();
-		slr.setDefaultLocale(Locale.GERMAN);
-		return slr;
+		var sessionLocaleResolver = new SessionLocaleResolver();
+		sessionLocaleResolver.setDefaultLocale(Locale.GERMAN);
+		return sessionLocaleResolver;
 	}
 
 }
