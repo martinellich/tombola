@@ -1,8 +1,8 @@
-package io.seventytwo.tombola.boundary;
+package ch.martinelli.oss.tombola.boundary;
 
-import io.seventytwo.tombola.control.PrizeRepository;
-import io.seventytwo.tombola.entity.Prize;
-import io.seventytwo.tombola.entity.Tombola;
+import ch.martinelli.oss.tombola.control.PrizeRepository;
+import ch.martinelli.oss.tombola.entity.Prize;
+import ch.martinelli.oss.tombola.entity.Tombola;
 import jakarta.servlet.http.HttpSession;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.MessageSource;

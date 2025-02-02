@@ -1,7 +1,7 @@
-package io.seventytwo.tombola.boundary;
+package ch.martinelli.oss.tombola.boundary;
 
-import io.seventytwo.tombola.control.TombolaRepository;
-import io.seventytwo.tombola.entity.Tombola;
+import ch.martinelli.oss.tombola.control.TombolaRepository;
+import ch.martinelli.oss.tombola.entity.Tombola;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

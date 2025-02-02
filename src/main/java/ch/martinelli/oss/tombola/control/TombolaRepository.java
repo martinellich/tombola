@@ -1,6 +1,6 @@
-package io.seventytwo.tombola.control;
+package ch.martinelli.oss.tombola.control;
 
-import io.seventytwo.tombola.entity.Tombola;
+import ch.martinelli.oss.tombola.entity.Tombola;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TombolaRepository extends JpaRepository<Tombola, Integer> {

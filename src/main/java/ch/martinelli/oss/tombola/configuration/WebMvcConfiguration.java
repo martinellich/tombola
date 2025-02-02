@@ -1,4 +1,4 @@
-package io.seventytwo.tombola.configuration;
+package ch.martinelli.oss.tombola.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,4 +1,4 @@
-package io.seventytwo.tombola.configuration;
+package ch.martinelli.oss.tombola.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,9 +22,9 @@ public class WebSecurityConfig {
                             new AntPathRequestMatcher("/actuator/health")
                     ).permitAll();
                     c.requestMatchers(
-                            new AntPathRequestMatcher("/actuator/**"),
+                            new AntPathRequestMatcher("/**"),
                             new AntPathRequestMatcher("/api/**"),
-                            new AntPathRequestMatcher("/**")
+                            new AntPathRequestMatcher("/actuator/**")
                     ).hasRole("USER");
                     c.anyRequest().authenticated();
                 }

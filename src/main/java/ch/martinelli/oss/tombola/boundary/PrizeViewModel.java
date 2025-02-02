@@ -1,4 +1,4 @@
-package io.seventytwo.tombola.boundary;
+package ch.martinelli.oss.tombola.boundary;
 
 public class PrizeViewModel {
 

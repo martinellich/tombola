@@ -1,4 +1,4 @@
-package io.seventytwo.tombola;
+package ch.martinelli.oss.tombola;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,0 +1,9 @@
+services:
+  postgres:
+    image: 'postgres:latest'
+    environment:
+      - 'POSTGRES_DB=tombola'
+      - 'POSTGRES_PASSWORD=tombola'
+      - 'POSTGRES_USER=tombola'
+    ports:
+      - '5432'
