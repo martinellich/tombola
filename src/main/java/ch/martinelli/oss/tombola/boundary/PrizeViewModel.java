@@ -2,22 +2,24 @@ package ch.martinelli.oss.tombola.boundary;
 
 public class PrizeViewModel {
 
-    private Integer number;
-    private String name;
+	private Integer number;
 
-    public Integer getNumber() {
-        return number;
-    }
+	private String name;
 
-    public void setNumber(Integer number) {
-        this.number = number;
-    }
+	public Integer getNumber() {
+		return number;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public void setNumber(Integer number) {
+		this.number = number;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 }

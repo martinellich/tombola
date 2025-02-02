@@ -14,49 +14,53 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class TombolasController {
 
-    private final TombolaRepository tombolaRepository;
-    private final PrizesController prizesController;
+	private static final String TOMBOLAS = "tombolas";
 
-    public TombolasController(TombolaRepository tombolaRepository, PrizesController prizesController) {
-        this.tombolaRepository = tombolaRepository;
-        this.prizesController = prizesController;
-    }
+	private static final String TOMBOLA = "tombola";
 
-    @GetMapping
-    public String findAll(Model model) {
-        model.addAttribute("tombolas", tombolaRepository.findAll());
+	private final TombolaRepository tombolaRepository;
 
-        return "tombolas";
-    }
+	private final PrizesController prizesController;
 
+	public TombolasController(TombolaRepository tombolaRepository, PrizesController prizesController) {
+		this.tombolaRepository = tombolaRepository;
+		this.prizesController = prizesController;
+	}
 
-    @GetMapping("{id}")
-    public String findById(@PathVariable Integer id, Model model) {
-        tombolaRepository.findById(id).ifPresent(tombola -> model.addAttribute("tombola", tombola));
+	@GetMapping
+	public String findAll(Model model) {
+		model.addAttribute(TOMBOLAS, tombolaRepository.findAll());
 
-        return "tombola";
-    }
+		return TOMBOLAS;
+	}
 
-    @GetMapping("{id}/select")
-    public String selectById(@PathVariable Integer id, HttpSession session, Model model) {
-        tombolaRepository.findById(id).ifPresent(tombola -> session.setAttribute("tombola", tombola));
+	@GetMapping("{id}")
+	public String findById(@PathVariable Integer id, Model model) {
+		tombolaRepository.findById(id).ifPresent(tombola -> model.addAttribute(TOMBOLA, tombola));
 
-        return prizesController.search(model, session);
-    }
+		return TOMBOLA;
+	}
 
-    @GetMapping("/new")
-    public String get(Model model) {
-        model.addAttribute("tombola", new Tombola());
+	@GetMapping("{id}/select")
+	public String selectById(@PathVariable Integer id, HttpSession session, Model model) {
+		tombolaRepository.findById(id).ifPresent(tombola -> session.setAttribute(TOMBOLA, tombola));
 
-        return "tombola";
-    }
+		return prizesController.search(model, session);
+	}
 
+	@GetMapping("/new")
+	public String get(Model model) {
+		model.addAttribute(TOMBOLA, new Tombola());
 
-    @PostMapping
-    public String save(Model model, Tombola tombola) {
-        Tombola savedTombola = tombolaRepository.save(tombola);
-        model.addAttribute("tombola", savedTombola);
+		return TOMBOLA;
+	}
 
-        return "tombola";
-    }
+	@PostMapping
+	public String save(Model model, Tombola tombola) {
+		Tombola savedTombola = tombolaRepository.save(tombola);
+		model.addAttribute(TOMBOLA, savedTombola);
+
+		return TOMBOLA;
+	}
+
 }

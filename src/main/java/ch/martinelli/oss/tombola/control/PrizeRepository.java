@@ -9,13 +9,14 @@ import java.util.Optional;
 
 public interface PrizeRepository extends JpaRepository<Prize, Integer> {
 
-    List<Prize> findAllByTombolaOrderByCreatedDateDesc(Tombola tombola);
+	List<Prize> findAllByTombolaOrderByCreatedDateDesc(Tombola tombola);
 
-    List<Prize> findAllByTombolaAndNumberOrderByCreatedDateDesc(Tombola tombola, Integer number);
+	List<Prize> findAllByTombolaAndNumberOrderByCreatedDateDesc(Tombola tombola, Integer number);
 
-    List<Prize> findAllByTombolaAndNameContainsIgnoreCaseOrderByCreatedDateDesc(Tombola tombola, String name);
+	List<Prize> findAllByTombolaAndNameContainsIgnoreCaseOrderByCreatedDateDesc(Tombola tombola, String name);
 
-    Optional<Prize> findByTombolaAndNumber(Tombola tombola, Integer number);
+	Optional<Prize> findByTombolaAndNumber(Tombola tombola, Integer number);
 
-    long countByTombola(Tombola tombola);
+	long countByTombola(Tombola tombola);
+
 }

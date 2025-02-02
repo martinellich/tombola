@@ -13,73 +13,74 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-@Table(uniqueConstraints = {@UniqueConstraint(name = "UX_PRIZE", columnNames = {"number", "tombola_id"})})
+@Table(uniqueConstraints = { @UniqueConstraint(name = "UX_PRIZE", columnNames = { "number", "tombola_id" }) })
 public class Prize {
 
-    @Id
-    @GeneratedValue(strategy = IDENTITY)
-    private Integer id;
+	@Id
+	@GeneratedValue(strategy = IDENTITY)
+	private Integer id;
 
-    @NotNull
-    private Integer number;
+	@NotNull
+	private Integer number;
 
-    @NotEmpty
-    private String name;
+	@NotEmpty
+	private String name;
 
-    @ManyToOne(optional = false)
-    private Tombola tombola;
+	@ManyToOne(optional = false)
+	private Tombola tombola;
 
-    @CreatedDate
-    private LocalDateTime createdDate;
+	@CreatedDate
+	private LocalDateTime createdDate;
 
-    @LastModifiedDate
-    private LocalDateTime lastModifiedDate;
+	@LastModifiedDate
+	private LocalDateTime lastModifiedDate;
 
-    public Integer getId() {
-        return id;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public Integer getNumber() {
-        return number;
-    }
+	public Integer getNumber() {
+		return number;
+	}
 
-    public void setNumber(Integer number) {
-        this.number = number;
-    }
+	public void setNumber(Integer number) {
+		this.number = number;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public Tombola getTombola() {
-        return tombola;
-    }
+	public Tombola getTombola() {
+		return tombola;
+	}
 
-    public void setTombola(Tombola tombola) {
-        this.tombola = tombola;
-    }
+	public void setTombola(Tombola tombola) {
+		this.tombola = tombola;
+	}
 
-    public LocalDateTime getCreatedDate() {
-        return createdDate;
-    }
+	public LocalDateTime getCreatedDate() {
+		return createdDate;
+	}
 
-    public void setCreatedDate(LocalDateTime createdDate) {
-        this.createdDate = createdDate;
-    }
+	public void setCreatedDate(LocalDateTime createdDate) {
+		this.createdDate = createdDate;
+	}
 
-    public LocalDateTime getLastModifiedDate() {
-        return lastModifiedDate;
-    }
+	public LocalDateTime getLastModifiedDate() {
+		return lastModifiedDate;
+	}
 
-    public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
-        this.lastModifiedDate = lastModifiedDate;
-    }
+	public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
+		this.lastModifiedDate = lastModifiedDate;
+	}
+
 }

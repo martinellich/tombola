@@ -12,37 +12,28 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 public class WebSecurityConfig {
 
+	@Bean
+	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+		http.authorizeHttpRequests(c -> {
+			c.requestMatchers(new AntPathRequestMatcher("/css/**"), new AntPathRequestMatcher("/images/**"),
+					new AntPathRequestMatcher("/actuator/health"))
+				.permitAll();
+			c.requestMatchers(new AntPathRequestMatcher("/**"), new AntPathRequestMatcher("/api/**"),
+					new AntPathRequestMatcher("/actuator/**"))
+				.hasRole("USER");
+			c.anyRequest().authenticated();
+		});
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests(c -> {
-                    c.requestMatchers(
-                            new AntPathRequestMatcher("/css/**"),
-                            new AntPathRequestMatcher("/images/**"),
-                            new AntPathRequestMatcher("/actuator/health")
-                    ).permitAll();
-                    c.requestMatchers(
-                            new AntPathRequestMatcher("/**"),
-                            new AntPathRequestMatcher("/api/**"),
-                            new AntPathRequestMatcher("/actuator/**")
-                    ).hasRole("USER");
-                    c.anyRequest().authenticated();
-                }
-        );
+		http.formLogin(c -> c.loginPage("/login").permitAll());
 
-        http.formLogin(c -> c.loginPage("/login").permitAll());
+		return http.build();
+	}
 
-        return http.build();
-    }
-
-    @Bean
-    public UserDetailsService userDetailsService() {
-        var user = User.withDefaultPasswordEncoder()
-                .username("user")
-                .password("tombola")
-                .roles("USER")
-                .build();
-        return new InMemoryUserDetailsManager(user);
-    }
+	@SuppressWarnings("java:S6437")
+	@Bean
+	public UserDetailsService userDetailsService() {
+		var user = User.withDefaultPasswordEncoder().username("user").password("tombola").roles("USER").build();
+		return new InMemoryUserDetailsManager(user);
+	}
 
 }

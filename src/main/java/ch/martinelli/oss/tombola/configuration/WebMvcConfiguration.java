@@ -14,27 +14,28 @@ import java.util.Locale;
 @Configuration
 public class WebMvcConfiguration implements WebMvcConfigurer {
 
-    @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/login").setViewName("login");
-    }
+	@Override
+	public void addViewControllers(ViewControllerRegistry registry) {
+		registry.addViewController("/login").setViewName("login");
+	}
 
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(localeChangeInterceptor());
-    }
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		registry.addInterceptor(localeChangeInterceptor());
+	}
 
-    @Bean
-    public LocaleChangeInterceptor localeChangeInterceptor() {
-        var lci = new LocaleChangeInterceptor();
-        lci.setParamName("lang");
-        return lci;
-    }
+	@Bean
+	public LocaleChangeInterceptor localeChangeInterceptor() {
+		var lci = new LocaleChangeInterceptor();
+		lci.setParamName("lang");
+		return lci;
+	}
 
-    @Bean
-    public LocaleResolver localeResolver() {
-        var slr = new SessionLocaleResolver();
-        slr.setDefaultLocale(Locale.GERMAN);
-        return slr;
-    }
+	@Bean
+	public LocaleResolver localeResolver() {
+		var slr = new SessionLocaleResolver();
+		slr.setDefaultLocale(Locale.GERMAN);
+		return slr;
+	}
+
 }

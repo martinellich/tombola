@@ -9,56 +9,62 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-public class Tombola {
+public class Tombola implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = IDENTITY)
-    private Integer id;
+	@Serial
+	private static final long serialVersionUID = 1L;
 
-    @NotEmpty
-    private String name;
+	@Id
+	@GeneratedValue(strategy = IDENTITY)
+	private Integer id;
 
-    @CreatedDate
-    private LocalDateTime createdDate;
+	@NotEmpty
+	private String name;
 
-    @LastModifiedDate
-    private LocalDateTime lastModifiedDate;
+	@CreatedDate
+	private LocalDateTime createdDate;
 
-    public Integer getId() {
-        return id;
-    }
+	@LastModifiedDate
+	private LocalDateTime lastModifiedDate;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public LocalDateTime getCreatedDate() {
-        return createdDate;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public void setCreatedDate(LocalDateTime createdDate) {
-        this.createdDate = createdDate;
-    }
+	public LocalDateTime getCreatedDate() {
+		return createdDate;
+	}
 
-    public LocalDateTime getLastModifiedDate() {
-        return lastModifiedDate;
-    }
+	public void setCreatedDate(LocalDateTime createdDate) {
+		this.createdDate = createdDate;
+	}
 
-    public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
-        this.lastModifiedDate = lastModifiedDate;
-    }
+	public LocalDateTime getLastModifiedDate() {
+		return lastModifiedDate;
+	}
+
+	public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
+		this.lastModifiedDate = lastModifiedDate;
+	}
+
 }

@@ -6,8 +6,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class TombolaApplicationTest {
 
-    @Test
-    void contextLoads() {
-    }
+	@Test
+	void contextLoads() {
+		// Nothing to do here
+	}
 
 }
