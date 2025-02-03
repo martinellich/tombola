@@ -36,6 +36,29 @@ class PrizesControllerTest extends ControllerTest {
 
 	@WithMockUser
 	@Test
+	void search_prize_with_empty_term() throws IOException {
+		// Navigate to non existing tombola
+		HtmlPage tombolaPage = webClient.getPage("http://localhost/tombolas/9999/select");
+
+		HtmlForm searchForm = tombolaPage.getFormByName("search-form");
+		tombolaPage = searchForm.getButtonByName("search").click();
+
+		// Check if the prize table contains the added tombola
+		HtmlTable prizesTable = tombolaPage.getFirstByXPath("//table");
+		assertThat(prizesTable.getRows()).hasSize(2);
+
+		// Search for non-existing prize number
+		searchForm = tombolaPage.getFormByName("search-form");
+		searchForm.getInputByName("searchTerm").setValueAttribute("999");
+		tombolaPage = searchForm.getButtonByName("search").click();
+
+		// Check if the prize table is empty
+		prizesTable = tombolaPage.getFirstByXPath("//table");
+		assertThat(prizesTable.getRows()).hasSize(1);
+	}
+
+	@WithMockUser
+	@Test
 	void try_to_create_price_with_same_number() throws IOException {
 		// Navigate to the prizes' page without a tombola in the session
 		// Expect redirect to the tombolas' page
