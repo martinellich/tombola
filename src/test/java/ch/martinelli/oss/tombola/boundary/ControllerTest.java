@@ -15,28 +15,28 @@ import java.util.Locale;
 @AutoConfigureMockMvc
 public abstract class ControllerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
+	@Autowired
+	private MockMvc mockMvc;
 
-    protected WebClient webClient;
+	protected WebClient webClient;
 
-    @BeforeEach
-    void setup() {
-        // Build WebClient with MockMvc
-        webClient = MockMvcWebClientBuilder.mockMvcSetup(mockMvc).build();
+	@BeforeEach
+	void setup() {
+		// Build WebClient with MockMvc
+		webClient = MockMvcWebClientBuilder.mockMvcSetup(mockMvc).build();
 
-        // Configure WebClient
-        webClient.getOptions().setThrowExceptionOnScriptError(false);
-        webClient.getOptions().setJavaScriptEnabled(true);
+		// Configure WebClient
+		webClient.getOptions().setThrowExceptionOnScriptError(false);
+		webClient.getOptions().setJavaScriptEnabled(true);
 
-        Locale.setDefault(Locale.GERMAN);
-    }
+		Locale.setDefault(Locale.GERMAN);
+	}
 
-    @AfterEach
-    void teardown() {
-        if (webClient != null) {
-            webClient.close();
-        }
-    }
+	@AfterEach
+	void teardown() {
+		if (webClient != null) {
+			webClient.close();
+		}
+	}
 
 }
