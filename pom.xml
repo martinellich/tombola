@@ -20,7 +20,6 @@
         <jacoco.version>0.8.12</jacoco.version>
         <sonar.organization>martinellich</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-        <sonar.sources>src/main/java,src/main/resources/templates</sonar.sources>
         <sonar.exclusions>src/main/java/ch/martinelli/oss/tombola/TombolaApplication.java</sonar.exclusions>
     </properties>
 
