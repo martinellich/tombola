@@ -45,7 +45,7 @@ class TombolasControllerTest extends ControllerTest {
 		HtmlTable prizesTable = prizesPage.getFirstByXPath("//table");
 		assertThat(prizesTable.getRows()).hasSize(1);
 
-		// Check if correct tombola is displayed
+		// Check if the correct tombola is displayed
 		h1 = prizesPage.getFirstByXPath("//h1");
 		assertThat(h1.getTextContent()).isEqualTo("Test Tombola");
 
