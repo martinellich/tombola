@@ -29,9 +29,11 @@ public class Tombola implements Serializable {
 	@NotEmpty
 	private String name;
 
+	@SuppressWarnings("unused")
 	@CreatedDate
 	private LocalDateTime createdDate;
 
+	@SuppressWarnings("unused")
 	@LastModifiedDate
 	private LocalDateTime lastModifiedDate;
 
@@ -49,22 +51,6 @@ public class Tombola implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public LocalDateTime getCreatedDate() {
-		return createdDate;
-	}
-
-	public void setCreatedDate(LocalDateTime createdDate) {
-		this.createdDate = createdDate;
-	}
-
-	public LocalDateTime getLastModifiedDate() {
-		return lastModifiedDate;
-	}
-
-	public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
-		this.lastModifiedDate = lastModifiedDate;
 	}
 
 }

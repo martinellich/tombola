@@ -29,9 +29,11 @@ public class Prize {
 	@ManyToOne(optional = false)
 	private Tombola tombola;
 
+	@SuppressWarnings("unused")
 	@CreatedDate
 	private LocalDateTime createdDate;
 
+	@SuppressWarnings("unused")
 	@LastModifiedDate
 	private LocalDateTime lastModifiedDate;
 
@@ -65,22 +67,6 @@ public class Prize {
 
 	public void setTombola(Tombola tombola) {
 		this.tombola = tombola;
-	}
-
-	public LocalDateTime getCreatedDate() {
-		return createdDate;
-	}
-
-	public void setCreatedDate(LocalDateTime createdDate) {
-		this.createdDate = createdDate;
-	}
-
-	public LocalDateTime getLastModifiedDate() {
-		return lastModifiedDate;
-	}
-
-	public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
-		this.lastModifiedDate = lastModifiedDate;
 	}
 
 }
