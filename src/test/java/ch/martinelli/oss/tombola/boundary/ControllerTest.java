@@ -4,26 +4,28 @@ import org.htmlunit.WebClient;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.test.web.servlet.htmlunit.MockMvcWebClientBuilder;
+import org.springframework.web.context.WebApplicationContext;
 
 import java.util.Locale;
+
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 public abstract class ControllerTest {
 
 	@Autowired
-	private MockMvc mockMvc;
+	private WebApplicationContext context;
 
 	protected WebClient webClient;
 
 	@BeforeEach
 	void setup() {
-		// Build WebClient with MockMvc
-		webClient = MockMvcWebClientBuilder.mockMvcSetup(mockMvc).build();
+		// Build WebClient with MockMvc and Spring Security
+		webClient = MockMvcWebClientBuilder.webAppContextSetup(context, springSecurity()).build();
 
 		// Configure WebClient
 		webClient.getOptions().setThrowExceptionOnScriptError(false);

@@ -7,20 +7,14 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 public class WebSecurityConfig {
 
 	@Bean
-	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+	public SecurityFilterChain filterChain(HttpSecurity http) {
 		http.authorizeHttpRequests(c -> {
-			c.requestMatchers(new AntPathRequestMatcher("/css/**"), new AntPathRequestMatcher("/images/**"),
-					new AntPathRequestMatcher("/actuator/health"))
-				.permitAll();
-			c.requestMatchers(new AntPathRequestMatcher("/**"), new AntPathRequestMatcher("/api/**"),
-					new AntPathRequestMatcher("/actuator/**"))
-				.hasRole("USER");
+			c.requestMatchers("/css/**", "/images/**", "/actuator/health").permitAll();
 			c.anyRequest().authenticated();
 		});
 
